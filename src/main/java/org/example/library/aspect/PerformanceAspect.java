@@ -3,13 +3,18 @@ package org.example.library.aspect;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
 public class PerformanceAspect {
 
-    @Around("execution(* org.example.library.service.BookService.*(..))")
+    @Pointcut("@annotation(org.example.library.annotation.PerformanceAnnotation)")
+    public void performancePointCut() {
+    }
+
+    @Around("performancePointCut()")
     public Object measureExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
 
